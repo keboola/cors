@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  tests: &tests
+    image: keboola/cors
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./build/logs/:/code/build/logs/
+    command: ['composer', 'ci']
+
+  tests-local:
+    <<: *tests
+    volumes:
+      - .:/code
