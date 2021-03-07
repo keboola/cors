@@ -13,7 +13,6 @@ variables:
 
 stages:
   - stage: tests
-    dependsOn: prepare
     displayName: Build & Test
     jobs:
       - job: test
