@@ -1,5 +1,5 @@
 {
-    "name": "keboola/minimalist-cors",
+    "name": "keboola/cors",
     "license": "MIT",
     "type": "library",
     "description": "Minimalistic CORS handlers for Symfony apps",

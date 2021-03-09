@@ -1,12 +1,7 @@
 vendor/
-.idea/
-cache/
-docs/
 composer.lock
 /.php_cs.cache
 /.env
 /build/logs
 /infection.log
 /.phpunit.result.cache
-/set-env.sh
-/provisioning/environments.yaml
