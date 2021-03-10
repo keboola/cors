@@ -1,4 +1,4 @@
-# Minimalistic CORS library [![Build Status](https://dev.azure.com/keboola-dev/job-queue-api-php-client/_apis/build/status/keboola.job-queue-api-php-client?branchName=master)](https://dev.azure.com/keboola-dev/job-queue-api-php-client/_build/latest?definitionId=3&branchName=master)
+# Minimalistic CORS library [![Build Status](https://dev.azure.com/keboola-dev/cors/_apis/build/status/keboola.cors?branchName=main)](https://dev.azure.com/keboola-dev/cors/_build/latest?definitionId=67&branchName=main)
 
 Adds CORS headers and OPTIONS response to all API endpoints
 
