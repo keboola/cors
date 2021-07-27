@@ -25,7 +25,7 @@
         }
     },
     "require": {
-        "php": "^7.4",
+        "php": "^7.4|^8.0",
         "ext-json": "*",
         "symfony/http-foundation": "^4.3|^5.0",
         "symfony/http-kernel": "^4.3|^5.0"
@@ -58,6 +58,7 @@
     },
     "config": {
         "sort-packages": true,
-        "process-timeout": 3600
+        "process-timeout": 3600,
+        "lock": false
     }
 }

@@ -1,16 +1,28 @@
 version: "3"
 
+x-tests: &tests
+  image: keboola/cors
+  volumes:
+    - ./build/logs/:/code/build/logs/
+  command: ['composer', 'ci']
+
+
 services:
-  tests: &tests
-    image: keboola/cors
+  tests74: &tests74
+    <<: *tests
     build:
       context: .
-      dockerfile: Dockerfile
-    volumes:
-      - ./build/logs/:/code/build/logs/
-    command: ['composer', 'ci']
+      args:
+        PHP_VERSION: 7.4
+
+  tests80: &tests80
+    <<: *tests
+    build:
+      context: .
+      args:
+        PHP_VERSION: 8.0
 
   tests-local:
-    <<: *tests
+    <<: *tests80
     volumes:
       - .:/code
