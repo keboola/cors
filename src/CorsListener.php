@@ -10,9 +10,10 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 class CorsListener
 {
-
+    /** @var array<string> */
     private array $allowedHeaders;
 
+    /** @param array<string> $allowedHeaders */
     public function __construct(array $allowedHeaders = [])
     {
         $this->allowedHeaders = $allowedHeaders;
