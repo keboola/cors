@@ -4,7 +4,7 @@ Adds CORS headers and OPTIONS response to all API endpoints
 
 ## Usage
 ```bash
-composer require keboola/minimalist-cors
+composer require keboola/cors
 ```
 
 Add this to the `services.yaml` file:
