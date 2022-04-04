@@ -22,7 +22,7 @@ class CorsListener
     public function onKernelRequest(RequestEvent $event): void
     {
         // Don't do anything if it's not the master request.
-        if (!$event->isMasterRequest()) {
+        if (!$event->isMainRequest()) {
             return;
         }
         if ($event->getRequest()->getRealMethod() === 'OPTIONS') {
