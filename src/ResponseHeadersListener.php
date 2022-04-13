@@ -11,7 +11,7 @@ class ResponseHeadersListener
     public function onKernelResponse(ResponseEvent $event): void
     {
         // Don't do anything if it's not the master request.
-        if (!$event->isMasterRequest()) {
+        if (!$event->isMainRequest()) {
             return;
         }
         $response = $event->getResponse();
