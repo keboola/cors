@@ -37,3 +37,7 @@ To run tests with local code use:
 docker-compose run tests-local composer install
 docker-compose run tests-local
 ```
+
+## License
+
+MIT licensed, see [LICENSE](./LICENSE) file.
