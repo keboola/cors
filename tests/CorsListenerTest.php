@@ -29,7 +29,7 @@ class CorsListenerTest extends TestCase
         $event = new RequestEvent(
             $this->getKernel(),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
         $listener = new CorsListener();
         $listener->onKernelRequest($event);
@@ -57,7 +57,7 @@ class CorsListenerTest extends TestCase
         $event = new RequestEvent(
             $this->getKernel(),
             $request,
-            HttpKernelInterface::MASTER_REQUEST
+            HttpKernelInterface::MAIN_REQUEST
         );
         $listener = new CorsListener();
         $listener->onKernelRequest($event);
@@ -72,7 +72,7 @@ class CorsListenerTest extends TestCase
         $event = new ResponseEvent(
             $this->getKernel(),
             $request,
-            HttpKernelInterface::MASTER_REQUEST,
+            HttpKernelInterface::MAIN_REQUEST,
             $response
         );
         $listener = new CorsListener(['X-StorageApi-Token']);
@@ -106,7 +106,7 @@ class CorsListenerTest extends TestCase
         $event = new ResponseEvent(
             $this->getKernel(),
             $request,
-            HttpKernelInterface::MASTER_REQUEST,
+            HttpKernelInterface::MAIN_REQUEST,
             $response
         );
         $listener = new CorsListener();

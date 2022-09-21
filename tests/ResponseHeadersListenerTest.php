@@ -29,7 +29,7 @@ class ResponseHeadersListenerTest extends TestCase
         $event = new ResponseEvent(
             $this->getKernel(),
             $request,
-            HttpKernelInterface::MASTER_REQUEST,
+            HttpKernelInterface::MAIN_REQUEST,
             $response
         );
         $listener = new ResponseHeadersListener();
@@ -63,7 +63,7 @@ class ResponseHeadersListenerTest extends TestCase
         $event = new ResponseEvent(
             $this->getKernel(),
             $request,
-            HttpKernelInterface::MASTER_REQUEST,
+            HttpKernelInterface::MAIN_REQUEST,
             $response
         );
         $listener = new ResponseHeadersListener();

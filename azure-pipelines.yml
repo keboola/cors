@@ -25,11 +25,6 @@ stages:
           - script: docker-compose run --rm tests74
             displayName: 'Run Tests'
 
-          - task: PublishTestResults@2
-            displayName: 'Publish Test results'
-            inputs:
-              testResultsFormat: 'JUnit'
-              testResultsFiles: 'build/logs/*.xml'
 
   - stage: php80
     displayName: PHP 8.0
@@ -44,8 +39,15 @@ stages:
           - script: docker-compose run --rm tests80
             displayName: 'Run Tests'
 
-          - task: PublishTestResults@2
-            displayName: 'Publish Test results'
-            inputs:
-              testResultsFormat: 'JUnit'
-              testResultsFiles: 'build/logs/*.xml'
+  - stage: php81
+    displayName: PHP 8.1
+    dependsOn: []
+    jobs:
+      - job: build
+        displayName: 'Build & Test'
+        steps:
+          - script: docker-compose build tests81
+            displayName: 'Build Docker image'
+
+          - script: docker-compose run --rm tests81
+            displayName: 'Run Tests'
