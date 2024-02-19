@@ -8,13 +8,6 @@ x-tests: &tests
 
 
 services:
-  tests74: &tests74
-    <<: *tests
-    build:
-      context: .
-      args:
-        PHP_VERSION: 7.4
-
   tests80: &tests80
     <<: *tests
     build:
@@ -28,6 +21,13 @@ services:
       context: .
       args:
         PHP_VERSION: 8.1
+
+  tests82: &tests82
+    <<: *tests
+    build:
+      context: .
+      args:
+        PHP_VERSION: 8.2
 
   tests-local:
     <<: *tests80
