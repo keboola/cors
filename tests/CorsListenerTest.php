@@ -82,7 +82,7 @@ class CorsListenerTest extends TestCase
         sort($headerNames);
         self::assertEquals(
             ['access-control-allow-headers', 'access-control-allow-methods', 'access-control-allow-origin',
-                'access-control-max-age', 'content-type', 'date'],
+                'access-control-max-age', 'cache-control', 'content-type', 'date'],
             $headerNames
         );
         self::assertEquals('*', $event->getResponse()->headers->get('Access-Control-Allow-Origin'));
@@ -138,5 +138,35 @@ class CorsListenerTest extends TestCase
         $headerNames = $event->getResponse()->headers->keys();
         sort($headerNames);
         self::assertEquals(['cache-control', 'date'], $headerNames);
+    }
+
+    public function testCacheControlIsNotOverwritten(): void
+    {
+        $request = new Request();
+        $response = new Response();
+        $response->setCache([
+            'max_age' => 60,
+            'private' => true,
+        ]);
+
+        $event = new ResponseEvent(
+            $this->getKernel(),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $response
+        );
+
+        $listener = new CorsListener(['X-StorageApi-Token']);
+        $listener->onKernelResponse($event);
+        self::assertNotNull($event->getResponse());
+
+        $headerNames = $event->getResponse()->headers->keys();
+        sort($headerNames);
+        self::assertEquals(
+            ['access-control-allow-origin', 'cache-control', 'date'],
+            $headerNames
+        );
+        self::assertEquals('*', $event->getResponse()->headers->get('Access-Control-Allow-Origin'));
+        self::assertEquals('max-age=60, private', $event->getResponse()->headers->get('Cache-Control'));
     }
 }
