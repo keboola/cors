@@ -1,35 +1,25 @@
 version: "3"
 
 x-tests: &tests
-  image: keboola/cors
+  command: ['bash', '-c', 'composer install && composer ci']
+  working_dir: /code
   volumes:
-    - ./build/logs/:/code/build/logs/
-  command: ['composer', 'ci']
-
+    - .:/code
 
 services:
-  tests74: &tests74
+  tests82: &tests82
     <<: *tests
     build:
       context: .
       args:
-        PHP_VERSION: 7.4
+        PHP_VERSION: "8.2"
 
-  tests80: &tests80
+  tests83: &tests83
     <<: *tests
     build:
       context: .
       args:
-        PHP_VERSION: 8.0
-
-  tests81: &tests81
-    <<: *tests
-    build:
-      context: .
-      args:
-        PHP_VERSION: 8.1
+        PHP_VERSION: "8.3"
 
   tests-local:
-    <<: *tests80
-    volumes:
-      - .:/code
+    <<: *tests82

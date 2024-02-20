@@ -47,14 +47,15 @@ class CorsListener
             https://github.com/symfony/http-foundation/blob/5.1/Response.php#L290
             to make the response deterministic, set the content type explicitly */
             $response->headers->set('Content-Type', 'text/html; charset=UTF-8');
-            /* no content -> no cache control needed, but it's set automatically by symfony in
-            https://github.com/symfony/http-foundation/blob/5.1/ResponseHeaderBag.php#L133) */
-            $response->headers->remove('Cache-Control');
+
             $headers = implode(', ', array_merge(['Accept', 'Content-Type'], $this->allowedHeaders));
             $response->headers->set('Access-Control-Allow-Headers', $headers);
             $response->headers->set('Access-Control-Allow-Methods', 'GET, HEAD, POST, PUT, DELETE, OPTIONS, PATCH');
-        } else {
-            // all other responses are not cached
+            return;
+        }
+
+        // disable caching by default, if not set by the controller
+        if (!$response->headers->has('Cache-Control')) {
             $response->headers->set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
         }
     }

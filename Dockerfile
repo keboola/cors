@@ -1,4 +1,4 @@
-ARG PHP_VERSION=8.0
+ARG PHP_VERSION=8.2
 FROM php:${PHP_VERSION}-cli
 
 ENV COMPOSER_ALLOW_SUPERUSER 1
@@ -17,8 +17,3 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 
 RUN pecl install xdebug \
     && docker-php-ext-enable xdebug
-
-COPY composer.* ./
-RUN composer install $COMPOSER_FLAGS --no-scripts --no-autoloader
-COPY . .
-RUN composer install $COMPOSER_FLAGS

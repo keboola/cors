@@ -30,7 +30,7 @@ class ResponseHeadersListenerTest extends TestCase
             $this->getKernel(),
             $request,
             HttpKernelInterface::MAIN_REQUEST,
-            $response
+            $response,
         );
         $listener = new ResponseHeadersListener();
         $listener->onKernelResponse($event);
@@ -40,16 +40,16 @@ class ResponseHeadersListenerTest extends TestCase
         self::assertEquals(
             ['access-control-allow-headers', 'access-control-allow-methods', 'access-control-allow-origin',
                 'access-control-max-age', 'content-type', 'date'],
-            $headerNames
+            $headerNames,
         );
         self::assertEquals('*', $event->getResponse()->headers->get('Access-Control-Allow-Origin'));
         self::assertEquals(
             'GET, HEAD, POST, PUT, DELETE, OPTIONS, PATCH',
-            $event->getResponse()->headers->get('Access-Control-Allow-Methods')
+            $event->getResponse()->headers->get('Access-Control-Allow-Methods'),
         );
         self::assertEquals(
             'Content-Type, Accept',
-            $event->getResponse()->headers->get('Access-Control-Allow-Headers')
+            $event->getResponse()->headers->get('Access-Control-Allow-Headers'),
         );
         self::assertEquals('86400', $event->getResponse()->headers->get('Access-Control-Max-Age'));
         self::assertEquals('text/html; charset=UTF-8', $event->getResponse()->headers->get('Content-Type'));
@@ -64,7 +64,7 @@ class ResponseHeadersListenerTest extends TestCase
             $this->getKernel(),
             $request,
             HttpKernelInterface::MAIN_REQUEST,
-            $response
+            $response,
         );
         $listener = new ResponseHeadersListener();
         $listener->onKernelResponse($event);
@@ -73,7 +73,7 @@ class ResponseHeadersListenerTest extends TestCase
         sort($headerNames);
         self::assertEquals(
             ['access-control-allow-origin', 'cache-control', 'date'],
-            $headerNames
+            $headerNames,
         );
         self::assertEquals('*', $event->getResponse()->headers->get('Access-Control-Allow-Origin'));
     }
@@ -87,7 +87,7 @@ class ResponseHeadersListenerTest extends TestCase
             $this->getKernel(),
             $request,
             HttpKernelInterface::SUB_REQUEST,
-            $response
+            $response,
         );
         $listener = new ResponseHeadersListener();
         $listener->onKernelResponse($event);

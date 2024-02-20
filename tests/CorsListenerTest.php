@@ -29,7 +29,7 @@ class CorsListenerTest extends TestCase
         $event = new RequestEvent(
             $this->getKernel(),
             $request,
-            HttpKernelInterface::MAIN_REQUEST
+            HttpKernelInterface::MAIN_REQUEST,
         );
         $listener = new CorsListener();
         $listener->onKernelRequest($event);
@@ -43,7 +43,7 @@ class CorsListenerTest extends TestCase
         $event = new RequestEvent(
             $this->getKernel(),
             $request,
-            HttpKernelInterface::SUB_REQUEST
+            HttpKernelInterface::SUB_REQUEST,
         );
         $listener = new CorsListener();
         $listener->onKernelRequest($event);
@@ -57,7 +57,7 @@ class CorsListenerTest extends TestCase
         $event = new RequestEvent(
             $this->getKernel(),
             $request,
-            HttpKernelInterface::MAIN_REQUEST
+            HttpKernelInterface::MAIN_REQUEST,
         );
         $listener = new CorsListener();
         $listener->onKernelRequest($event);
@@ -73,7 +73,7 @@ class CorsListenerTest extends TestCase
             $this->getKernel(),
             $request,
             HttpKernelInterface::MAIN_REQUEST,
-            $response
+            $response,
         );
         $listener = new CorsListener(['X-StorageApi-Token']);
         $listener->onKernelResponse($event);
@@ -82,17 +82,17 @@ class CorsListenerTest extends TestCase
         sort($headerNames);
         self::assertEquals(
             ['access-control-allow-headers', 'access-control-allow-methods', 'access-control-allow-origin',
-                'access-control-max-age', 'content-type', 'date'],
-            $headerNames
+                'access-control-max-age', 'cache-control', 'content-type', 'date'],
+            $headerNames,
         );
         self::assertEquals('*', $event->getResponse()->headers->get('Access-Control-Allow-Origin'));
         self::assertEquals(
             'GET, HEAD, POST, PUT, DELETE, OPTIONS, PATCH',
-            $event->getResponse()->headers->get('Access-Control-Allow-Methods')
+            $event->getResponse()->headers->get('Access-Control-Allow-Methods'),
         );
         self::assertEquals(
             'Accept, Content-Type, X-StorageApi-Token',
-            $event->getResponse()->headers->get('Access-Control-Allow-Headers')
+            $event->getResponse()->headers->get('Access-Control-Allow-Headers'),
         );
         self::assertEquals('86400', $event->getResponse()->headers->get('Access-Control-Max-Age'));
         self::assertEquals('text/html; charset=UTF-8', $event->getResponse()->headers->get('Content-Type'));
@@ -107,7 +107,7 @@ class CorsListenerTest extends TestCase
             $this->getKernel(),
             $request,
             HttpKernelInterface::MAIN_REQUEST,
-            $response
+            $response,
         );
         $listener = new CorsListener();
         $listener->onKernelResponse($event);
@@ -116,7 +116,7 @@ class CorsListenerTest extends TestCase
         sort($headerNames);
         self::assertEquals(
             ['access-control-allow-origin', 'cache-control', 'date'],
-            $headerNames
+            $headerNames,
         );
         self::assertEquals('*', $event->getResponse()->headers->get('Access-Control-Allow-Origin'));
     }
@@ -130,7 +130,7 @@ class CorsListenerTest extends TestCase
             $this->getKernel(),
             $request,
             HttpKernelInterface::SUB_REQUEST,
-            $response
+            $response,
         );
         $listener = new CorsListener();
         $listener->onKernelResponse($event);
@@ -138,5 +138,35 @@ class CorsListenerTest extends TestCase
         $headerNames = $event->getResponse()->headers->keys();
         sort($headerNames);
         self::assertEquals(['cache-control', 'date'], $headerNames);
+    }
+
+    public function testCacheControlIsNotOverwritten(): void
+    {
+        $request = new Request();
+        $response = new Response();
+        $response->setCache([
+            'max_age' => 60,
+            'private' => true,
+        ]);
+
+        $event = new ResponseEvent(
+            $this->getKernel(),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $response,
+        );
+
+        $listener = new CorsListener(['X-StorageApi-Token']);
+        $listener->onKernelResponse($event);
+        self::assertNotNull($event->getResponse());
+
+        $headerNames = $event->getResponse()->headers->keys();
+        sort($headerNames);
+        self::assertEquals(
+            ['access-control-allow-origin', 'cache-control', 'date'],
+            $headerNames,
+        );
+        self::assertEquals('*', $event->getResponse()->headers->get('Access-Control-Allow-Origin'));
+        self::assertEquals('max-age=60, private', $event->getResponse()->headers->get('Cache-Control'));
     }
 }
