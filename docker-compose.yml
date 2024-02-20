@@ -1,10 +1,10 @@
 version: "3"
 
 x-tests: &tests
+  command: ['bash', '-c', 'composer install && composer ci']
+  working_dir: /code
   volumes:
-    - ./build/logs/:/code/build/logs/
-  command: ['composer', 'ci']
-
+    - .:/code
 
 services:
   tests82: &tests82
@@ -23,5 +23,3 @@ services:
 
   tests-local:
     <<: *tests82
-    volumes:
-      - .:/code
