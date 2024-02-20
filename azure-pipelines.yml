@@ -12,32 +12,6 @@ variables:
   DOCKER_BUILDKIT: 1
 
 stages:
-  - stage: php80
-    displayName: PHP 8.0
-    dependsOn: []
-    jobs:
-      - job: build
-        displayName: 'Build & Test'
-        steps:
-          - script: docker-compose build tests80
-            displayName: 'Build Docker image'
-
-          - script: docker-compose run --rm tests80
-            displayName: 'Run Tests'
-
-  - stage: php81
-    displayName: PHP 8.1
-    dependsOn: []
-    jobs:
-      - job: build
-        displayName: 'Build & Test'
-        steps:
-          - script: docker-compose build tests81
-            displayName: 'Build Docker image'
-
-          - script: docker-compose run --rm tests81
-            displayName: 'Run Tests'
-
   - stage: php82
     displayName: PHP 8.2
     dependsOn: []
@@ -49,4 +23,17 @@ stages:
             displayName: 'Build Docker image'
 
           - script: docker-compose run --rm tests82
+            displayName: 'Run Tests'
+
+  - stage: php83
+    displayName: PHP 8.3
+    dependsOn: []
+    jobs:
+      - job: build
+        displayName: 'Build & Test'
+        steps:
+          - script: docker-compose build tests83
+            displayName: 'Build Docker image'
+
+          - script: docker-compose run --rm tests83
             displayName: 'Run Tests'

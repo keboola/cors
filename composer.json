@@ -25,14 +25,14 @@
         }
     },
     "require": {
-        "php": "^8.0",
+        "php": "^8.2",
         "ext-json": "*",
         "symfony/http-foundation": "^6.0|^7.0",
         "symfony/http-kernel": "^6.0|^7.0"
     },
     "require-dev": {
-        "infection/infection": "^0.26.19",
-        "keboola/coding-standard": ">=14.0",
+        "infection/infection": "^0.27.10",
+        "keboola/coding-standard": "^15.0",
         "phpstan/phpstan": "^1.10",
         "phpstan/phpstan-phpunit": "^1.3",
         "phpstan/phpstan-symfony": "^1.3",
