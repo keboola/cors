@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Keboola\Cors\Tests;
 
+use DateTimeImmutable;
 use Keboola\Cors\CorsListener;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
@@ -119,6 +120,26 @@ class CorsListenerTest extends TestCase
             $headerNames,
         );
         self::assertEquals('*', $event->getResponse()->headers->get('Access-Control-Allow-Origin'));
+        self::assertEquals(
+            'must-revalidate, no-cache, no-store, private',
+            $event->getResponse()->headers->get('Cache-Control'),
+        );
+    }
+
+    public function testCacheControlRespectsLastModified(): void
+    {
+        $request = new Request();
+        $response = new Response('some-text');
+        $response->setLastModified(new DateTimeImmutable('2024-01-01 00:00:00'));
+        $event = new ResponseEvent(
+            $this->getKernel(),
+            $request,
+            HttpKernelInterface::MAIN_REQUEST,
+            $response,
+        );
+        $listener = new CorsListener();
+        $listener->onKernelResponse($event);
+        self::assertEquals('private, must-revalidate', $event->getResponse()->headers->get('Cache-Control'));
     }
 
     public function testListenerSubRequestResponse(): void
