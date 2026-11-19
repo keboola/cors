@@ -57,11 +57,9 @@ class CorsListener
             return;
         }
 
-        // Disable caching by default, if not set by the controller. Symfony's ResponseHeaderBag always
-        // fills in Cache-Control, so has() is always true; when the controller set no cache directives
-        // (and no Expires / Last-Modified), the value is Symfony's conservative default.
+        // Symfony always fills in Cache-Control, so treat its computed default as "not set by the controller"
         $cacheControl = $response->headers->get('Cache-Control');
-        if ($cacheControl === null || $cacheControl === '' || $cacheControl === self::SYMFONY_DEFAULT_CACHE_CONTROL) {
+        if ($cacheControl === null || $cacheControl === self::SYMFONY_DEFAULT_CACHE_CONTROL) {
             $response->headers->set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
         }
     }
