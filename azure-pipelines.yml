@@ -19,10 +19,10 @@ stages:
       - job: build
         displayName: 'Build & Test'
         steps:
-          - script: docker-compose build tests82
+          - script: docker compose build tests82
             displayName: 'Build Docker image'
 
-          - script: docker-compose run --rm tests82
+          - script: docker compose run --rm tests82
             displayName: 'Run Tests'
 
   - stage: php83
@@ -32,8 +32,8 @@ stages:
       - job: build
         displayName: 'Build & Test'
         steps:
-          - script: docker-compose build tests83
+          - script: docker compose build tests83
             displayName: 'Build Docker image'
 
-          - script: docker-compose run --rm tests83
+          - script: docker compose run --rm tests83
             displayName: 'Run Tests'

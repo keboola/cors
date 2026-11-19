@@ -10,6 +10,9 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 class CorsListener
 {
+    // value computed by Symfony's ResponseHeaderBag when no cache directives are set
+    private const SYMFONY_DEFAULT_CACHE_CONTROL = 'no-cache, private';
+
     /** @var array<string> */
     private array $allowedHeaders;
 
@@ -54,8 +57,9 @@ class CorsListener
             return;
         }
 
-        // disable caching by default, if not set by the controller
-        if (!$response->headers->has('Cache-Control')) {
+        // Symfony always fills in Cache-Control, so treat its computed default as "not set by the controller"
+        $cacheControl = $response->headers->get('Cache-Control');
+        if ($cacheControl === null || $cacheControl === self::SYMFONY_DEFAULT_CACHE_CONTROL) {
             $response->headers->set('Cache-Control', 'private, no-cache, no-store, must-revalidate');
         }
     }
